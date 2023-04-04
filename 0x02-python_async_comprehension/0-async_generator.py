@@ -4,6 +4,7 @@ import asyncio
 import random
 from typing import Generator
 
+
 async def async_generator() -> Generator[int, None, None]:
     """creates a generator list"""
     for i in range(10):
