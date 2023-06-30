@@ -5,6 +5,8 @@ from client import GithubOrgClient
 from parameterized import parameterized
 from unittest import mock
 
+patch = mock.patch
+
 
 class TestGithubOrgClient(unittest.TestCase):
     """test class for class GithubOrgClient"""
@@ -12,7 +14,7 @@ class TestGithubOrgClient(unittest.TestCase):
         'google',
         'abc'
     ])
-    @mock.patch('client.get_json')
+    @patch('client.get_json')
     def test_org(self, org, mock_get_json):
         """unit test for org"""
         data = GithubOrgClient(org)
@@ -22,17 +24,17 @@ class TestGithubOrgClient(unittest.TestCase):
 
     def test_public_repos_url(self):
         """unit test for method _public_repos_url"""
-        with mock.patch.object(GithubOrgClient, 'org',
-                               new_callable=mock.PropertyMock) as payload:
+        with patch.object(GithubOrgClient, 'org',
+                          new_callable=mock.PropertyMock) as payload:
             payload.return_value = {'repos_url': 'test data success'}
             a = GithubOrgClient('test')._public_repos_url
             self.assertEqual(a, 'test data success')
 
-    @mock.patch('client.get_json')
+    @patch('client.get_json')
     def test_public_repos(self, mock_get_json):
         """unit test for public repos"""
-        with mock.patch.object(GithubOrgClient, '_public_repos_url',
-                               new_callable=mock.PropertyMock) as url:
+        with patch.object(GithubOrgClient, '_public_repos_url',
+                          new_callable=mock.PropertyMock) as url:
             url.return_value = 'myrepos'
             mock_get_json.return_value = [
                 {'name': 'test'},
